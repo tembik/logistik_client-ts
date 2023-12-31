@@ -13,14 +13,16 @@ const Leftbar = () => {
       <Stack spacing={2} p={3} direction="column">
         <Stack>
           <Box>
-            <Button variant="text" startIcon={<HomeIcon />}>
-              Dashboard
-            </Button>
+            <Link to="/">
+              <Button variant="text" startIcon={<HomeIcon />}>
+                Dashboard
+              </Button>
+            </Link>
           </Box>
         </Stack>
         <Stack direction="column">
           <Box>
-            <Link to="/">
+            <Link to="/customer">
               <Button variant="text" startIcon={<PersonIcon />}>
                 Customer
               </Button>

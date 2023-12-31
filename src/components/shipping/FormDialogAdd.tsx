@@ -18,6 +18,9 @@ import {
   DialogTitle,
   TextField,
   MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
 } from "@mui/material";
 import { useState, useEffect, ChangeEvent } from "react";
 import { postShipping, readAllAlamat } from "../../services/api";
@@ -75,25 +78,46 @@ const FormDialogAdd = (props: Props) => {
           <Grid item>
             <TextField
               select
-              label="Asal"
+              label="Pilih Alamat Asal"
               name="asal"
               onChange={handleChange}
-              fullWidth
+              sx={{ width: 200 }}
             >
               {alamat.map((item) => {
-                return <MenuItem value={item.id} key={item.id}>{item.nama}</MenuItem>;
+                return (
+                  <MenuItem value={item.id} key={item.id}>
+                    {item.nama}
+                  </MenuItem>
+                );
               })}
-              {/* <MenuItem value="IN">India</MenuItem> */}
+            </TextField>
+          </Grid>
+
+          <Grid item>
+            <TextField
+              select
+              label="Pilih Alamat Tujuan"
+              name="tujuan"
+              onChange={handleChange}
+              sx={{ width: 200 }}
+            >
+              {alamat.map((item) => {
+                return (
+                  <MenuItem value={item.id} key={item.id}>
+                    {item.nama}
+                  </MenuItem>
+                );
+              })}
             </TextField>
           </Grid>
           <Grid item>
-            <TextField label="Email" name="email" onChange={handleChange} />
+            <TextField label="Layanan" name="layanan" onChange={handleChange} />
           </Grid>
           <Grid item>
-            <TextField label="No Telp" name="no_telp" onChange={handleChange} />
+            <TextField label="Harga" name="harga" onChange={handleChange} />
           </Grid>
           <Grid item>
-            <TextField label="Kota" name="kota" onChange={handleChange} />
+            <TextField label="Estimati" name="estimati" onChange={handleChange} />
           </Grid>
         </Grid>
       </DialogContent>

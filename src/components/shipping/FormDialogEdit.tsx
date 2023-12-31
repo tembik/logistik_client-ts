@@ -17,53 +17,78 @@ import {
   DialogContentText,
   DialogTitle,
   TextField,
+  MenuItem,
 } from "@mui/material";
 import { useState, useEffect, ChangeEvent } from "react";
 import { readOneCustomer, EditCustomer } from "../../services/api";
 import { TypeCustomer, customerData } from "../../type/customer";
+import {
+  readOneShipping,
+  editShipping,
+  readAllAlamat,
+} from "../../services/api";
+
+import { TypeAlamat } from "../../type/alamat";
+import {
+  TypeShippingRates,
+  TypeShippingRatesAdd,
+  shippingRatesData,
+} from "../../type/shipping";
 
 type Props = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   tampil: () => Promise<void>;
-  item: TypeCustomer;
+  item: TypeShippingRates;
 };
 const FormDialogEdit = (props: Props) => {
   const { open, setOpen, tampil, item } = props;
-  const [customerEdit, setCustomerEdit] = useState<TypeCustomer>(customerData);
+  const [shippingEdit, setShippingEdit] =
+    useState<TypeShippingRatesAdd>(shippingRatesData);
+  const [alamat, setAlamat] = useState<TypeAlamat[]>([]);
 
   useEffect(() => {
-    getCustomer();
+    getAlamat();
   }, []);
 
-  const getCustomer = async () => {
-    await readOneCustomer(item.id).then((response) => {
-      setCustomerEdit(() => {
-        const { nama, email, no_telp, kota }: TypeCustomer = response.data;
+  const getAlamat = async () => {
+    await readAllAlamat().then((response) => setAlamat(response.data));
+  };
+  useEffect(() => {
+    getShipping();
+  }, []);
+
+  const getShipping = async () => {
+    await readOneShipping(item.id).then((response) => {
+      setShippingEdit(() => {
+        const { asal, tujuan, layanan, harga, estimati }: TypeShippingRatesAdd =
+          response.data;
         return {
-          nama: nama,
-          email: email,
-          no_telp: no_telp,
-          kota: kota,
+          asal: asal,
+          tujuan: tujuan,
+          layanan: layanan,
+          harga: harga,
+          estimati: estimati,
         };
       });
     });
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setCustomerEdit((prev) => {
+    setShippingEdit((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
   };
 
   const handleClick = async () => {
-    const userData: TypeCustomer = {
-      nama: customerEdit.nama,
-      email: customerEdit.email,
-      no_telp: customerEdit.no_telp,
-      kota: customerEdit.kota,
+    const shippingData: TypeShippingRatesAdd = {
+      asal:shippingEdit.asal,
+      tujuan:shippingEdit.tujuan,
+      layanan:shippingEdit.layanan,
+      harga:shippingEdit.harga,
+      estimati:shippingEdit.estimati
     };
-    await EditCustomer(item.id, userData).then(() => {
+    await editShipping(item.id, shippingData).then(() => {
       setOpen(false);
       tampil();
     });
@@ -71,39 +96,63 @@ const FormDialogEdit = (props: Props) => {
 
   return (
     <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm">
-      <DialogTitle>Edit Customer</DialogTitle>
+      <DialogTitle>Edit Ongkos Kirim</DialogTitle>
       <DialogContent>
         <DialogContentText gutterBottom>Wajib Diisi</DialogContentText>
         <Grid container spacing={2}>
           <Grid item>
             <TextField
-              label="Nama"
-              name="nama"
-              value={customerEdit.nama}
+              select
+              label="Pilih Alamat Asal"
+              name="asal"
+              sx={{ width: 200 }}
+              value={shippingEdit.asal}
+              onChange={handleChange}
+            >
+              {alamat.map((item) => {
+                return (
+                  <MenuItem value={item.id} key={item.id}>
+                    {item.nama}
+                  </MenuItem>
+                );
+              })}
+            </TextField>
+          </Grid>
+
+          <Grid item>
+            <TextField
+              select
+              label="Pilih Alamat Tujuan"
+              name="tujuan"
+              sx={{ width: 200 }}
+              value={shippingEdit.tujuan}
+              onChange={handleChange}
+            >
+              {alamat.map((item) => {
+                return (
+                  <MenuItem value={item.id} key={item.id}>
+                    {item.nama}
+                  </MenuItem>
+                );
+              })}
+            </TextField>
+          </Grid>
+          <Grid item>
+            <TextField
+              label="Layanan"
+              name="layanan"
+              value={shippingEdit.layanan}
               onChange={handleChange}
             />
           </Grid>
           <Grid item>
-            <TextField
-              label="Email"
-              name="email"
-              value={customerEdit.email}
-              onChange={handleChange}
-            />
+            <TextField label="Harga" name="harga" value={shippingEdit.harga} onChange={handleChange} />
           </Grid>
           <Grid item>
             <TextField
-              label="No Telp"
-              name="no_telp"
-              value={customerEdit.no_telp}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item>
-            <TextField
-              label="Kota"
-              name="kota"
-              value={customerEdit.kota}
+              label="Estimati"
+              name="estimati"
+              value={shippingEdit.estimati}
               onChange={handleChange}
             />
           </Grid>

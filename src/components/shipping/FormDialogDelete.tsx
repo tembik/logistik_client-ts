@@ -20,19 +20,21 @@ import {
 } from "@mui/material";
 import { deleteCustomer } from "../../services/api";
 import { TypeCustomer } from "../../type/customer";
+import { deleteShipping } from "../../services/api";
+import { TypeShippingRates } from "../../type/shipping";
 
 type Props = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   tampil: () => Promise<void>;
-  item: TypeCustomer;
+  item: TypeShippingRates;
 };
 
 const FormDialogDelete = (props: Props) => {
   const { open, setOpen, tampil, item } = props;
 
   const handleClick = async () => {
-    await deleteCustomer(item.id).then(() => {
+    await deleteShipping(item.id).then(() => {
       setOpen(false);
       tampil();
     });
@@ -43,7 +45,7 @@ const FormDialogDelete = (props: Props) => {
       <DialogTitle>Konfirmasi</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Apakah Anda Ingin menghapus customer {item.nama}?
+          Apakah Anda Ingin menghapus Shipping Rates ini?
         </DialogContentText>
       </DialogContent>
       <DialogActions>

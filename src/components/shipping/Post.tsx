@@ -42,16 +42,16 @@ const Post = (props: Props) => {
       <TableCell>{item.harga}</TableCell>
       <TableCell>{item.estimati}</TableCell>
       <TableCell>
-        {/* <Button size="small" color="success" startIcon={<EditIcon />} onClick={() => setOpenEdit(true)}> */}
+        <Button size="small" color="success" startIcon={<EditIcon />} onClick={() => setOpenEdit(true)}>
         Edit
-        {/* </Button>{" "} */}
-        {/* |{" "} */}
-        {/* <Button size="small" color="error" startIcon={<DeleteIcon />} onClick={() => setOpenDelete(true)}> */}
+        </Button>{" "}
+        |{" "}
+        <Button size="small" color="error" startIcon={<DeleteIcon />} onClick={() => setOpenDelete(true)}>
         Delete
-        {/* </Button> */}
+        </Button>
       </TableCell>
-      {/* <FormDialogEdit open={openEdit} setOpen={setOpenEdit} item={item} tampil={tampil} /> */}
-      {/* <FormDialogDelete open={openDelete} setOpen={setOpenDelete} item={item} tampil={tampil}/> */}
+      <FormDialogEdit open={openEdit} setOpen={setOpenEdit} item={item} tampil={tampil} />
+      <FormDialogDelete open={openDelete} setOpen={setOpenDelete} item={item} tampil={tampil}/>
     </TableRow>
   );
 };

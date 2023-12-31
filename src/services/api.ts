@@ -36,6 +36,18 @@ export const readAllShipping = () => {
   return axiosApi.get("/api/shipping");
 };
 
+export const readOneShipping = (id: number | undefined) => {
+  return axiosApi.get(`/api/shipping/${id}`);
+};
+
 export const postShipping = (data: TypeShippingRatesAdd) => {
   return axiosApi.post("/api/shipping", data);
+};
+
+export const editShipping = (id: number | undefined, data: TypeShippingRatesAdd) => {
+  return axiosApi.post(`/api/shipping/${id}`, data);
+};
+
+export const deleteShipping = (id: number | undefined) => {
+  return axiosApi.delete(`/api/shipping/${id}`);
 };
