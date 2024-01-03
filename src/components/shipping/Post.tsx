@@ -23,7 +23,17 @@ import FormDialogEdit from "./FormDialogEdit";
 import FormDialogDelete from "./FormDialogDelete";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { TypeShippingRates } from "../../type/shipping";
+import {
+  TypeShippingRates,
+  TypeShippingRatesAdd,
+  shippingRatesData,
+} from "../../type/shipping";
+import { TypeAlamat } from "../../type/alamat";
+import {
+  readOneShipping,
+  editShipping,
+  readAllAlamat,
+} from "../../services/api";
 
 type Props = {
   item: TypeShippingRates;
@@ -32,7 +42,34 @@ type Props = {
 const Post = (props: Props) => {
   const [openEdit, setOpenEdit] = useState<boolean>(false);
   const [openDelete, setOpenDelete] = useState<boolean>(false);
+  const [shippingEdit, setShippingEdit] =
+    useState<TypeShippingRatesAdd>(shippingRatesData);
+  const [alamat, setAlamat] = useState<TypeAlamat[]>([]);
   const { item, tampil } = props;
+
+  // const getAlamat = async () => {
+  //   await readAllAlamat().then((response) => setAlamat(response.data));
+  // };
+
+  const clickEdit = async () => {
+    setOpenEdit(true)
+    await readAllAlamat().then((response) => setAlamat(response.data));
+    await readOneShipping(item.id).then((response) => {
+      console.log(response.data)
+      setShippingEdit(() => {
+        const { asal, tujuan, layanan, harga, estimati }: TypeShippingRatesAdd =
+          response.data;
+        return {
+          asal: asal,
+          tujuan: tujuan,
+          layanan: layanan,
+          harga: harga,
+          estimati: estimati,
+        };
+      });
+    });
+  };
+
   return (
     <TableRow>
       <TableCell>{item.id}</TableCell>
@@ -42,16 +79,39 @@ const Post = (props: Props) => {
       <TableCell>{item.harga}</TableCell>
       <TableCell>{item.estimati}</TableCell>
       <TableCell>
-        <Button size="small" color="success" startIcon={<EditIcon />} onClick={() => setOpenEdit(true)}>
-        Edit
+        <Button
+          size="small"
+          color="success"
+          startIcon={<EditIcon />}
+          onClick={clickEdit}
+        >
+          Edit
         </Button>{" "}
         |{" "}
-        <Button size="small" color="error" startIcon={<DeleteIcon />} onClick={() => setOpenDelete(true)}>
-        Delete
+        <Button
+          size="small"
+          color="error"
+          startIcon={<DeleteIcon />}
+          onClick={() => setOpenDelete(true)}
+        >
+          Delete
         </Button>
       </TableCell>
-      <FormDialogEdit open={openEdit} setOpen={setOpenEdit} item={item} tampil={tampil} />
-      <FormDialogDelete open={openDelete} setOpen={setOpenDelete} item={item} tampil={tampil}/>
+      <FormDialogEdit
+        open={openEdit}
+        setOpen={setOpenEdit}
+        item={item}
+        tampil={tampil}
+        alamat={alamat}
+        shippingEdit={shippingEdit}
+        setShippingEdit={setShippingEdit}
+      />
+      <FormDialogDelete
+        open={openDelete}
+        setOpen={setOpenDelete}
+        item={item}
+        tampil={tampil}
+      />
     </TableRow>
   );
 };
