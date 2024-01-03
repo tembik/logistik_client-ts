@@ -27,28 +27,12 @@ type Props = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   tampil: () => Promise<void>;
   item: TypeCustomer;
+  customerEdit: TypeCustomer;
+  setCustomerEdit: React.Dispatch<React.SetStateAction<TypeCustomer>>;
 };
+
 const FormDialogEdit = (props: Props) => {
-  const { open, setOpen, tampil, item } = props;
-  const [customerEdit, setCustomerEdit] = useState<TypeCustomer>(customerData);
-
-  useEffect(() => {
-    getCustomer();
-  }, []);
-
-  const getCustomer = async () => {
-    await readOneCustomer(item.id).then((response) => {
-      setCustomerEdit(() => {
-        const { nama, email, no_telp, kota }: TypeCustomer = response.data;
-        return {
-          nama: nama,
-          email: email,
-          no_telp: no_telp,
-          kota: kota,
-        };
-      });
-    });
-  };
+  const { open, setOpen, tampil, item, customerEdit, setCustomerEdit } = props;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCustomerEdit((prev) => {
@@ -111,7 +95,9 @@ const FormDialogEdit = (props: Props) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={() => setOpen(false)}>cancel</Button>
-        <Button variant="contained" onClick={handleClick}>submit</Button>
+        <Button variant="contained" onClick={handleClick}>
+          submit
+        </Button>
       </DialogActions>
     </Dialog>
   );
