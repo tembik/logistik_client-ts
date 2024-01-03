@@ -17,16 +17,16 @@ export type TypeShippingRates = {
 
 export type TypeShippingRatesAdd = {
   id?: number;
-  asal: number | undefined;
-  tujuan: number | undefined;
+  asal: number | string;
+  tujuan: number | string;
   layanan: string;
   harga: string;
   estimati: string;
 };
 
 export const shippingRatesData: TypeShippingRatesAdd = {
-  asal: undefined,
-  tujuan: undefined,
+  asal: "",
+  tujuan: "",
   layanan: "",
   harga: "",
   estimati: "",

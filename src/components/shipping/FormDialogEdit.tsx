@@ -40,39 +40,42 @@ type Props = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   tampil: () => Promise<void>;
   item: TypeShippingRates;
+  alamat: TypeAlamat[]
+  shippingEdit: TypeShippingRatesAdd
+  setShippingEdit: React.Dispatch<React.SetStateAction<TypeShippingRatesAdd>>
 };
 const FormDialogEdit = (props: Props) => {
-  const { open, setOpen, tampil, item } = props;
-  const [shippingEdit, setShippingEdit] =
-    useState<TypeShippingRatesAdd>(shippingRatesData);
-  const [alamat, setAlamat] = useState<TypeAlamat[]>([]);
+  const { open, setOpen, tampil, item, alamat ,shippingEdit, setShippingEdit } = props;
+  // const [shippingEdit, setShippingEdit] =
+    // useState<TypeShippingRatesAdd>(shippingRatesData);
+  // const [alamat, setAlamat] = useState<TypeAlamat[]>([]);
 
-  useEffect(() => {
-    getAlamat();
-  }, []);
+  // useEffect(() => {
+  //   getAlamat();
+  // }, []);
 
-  const getAlamat = async () => {
-    await readAllAlamat().then((response) => setAlamat(response.data));
-  };
-  useEffect(() => {
-    getShipping();
-  }, []);
+  // const getAlamat = async () => {
+  //   await readAllAlamat().then((response) => setAlamat(response.data));
+  // };
+  // useEffect(() => {
+  //   getShipping();
+  // }, []);
 
-  const getShipping = async () => {
-    await readOneShipping(item.id).then((response) => {
-      setShippingEdit(() => {
-        const { asal, tujuan, layanan, harga, estimati }: TypeShippingRatesAdd =
-          response.data;
-        return {
-          asal: asal,
-          tujuan: tujuan,
-          layanan: layanan,
-          harga: harga,
-          estimati: estimati,
-        };
-      });
-    });
-  };
+  // const getShipping = async () => {
+  //   await readOneShipping(item.id).then((response) => {
+  //     setShippingEdit(() => {
+  //       const { asal, tujuan, layanan, harga, estimati }: TypeShippingRatesAdd =
+  //         response.data;
+  //       return {
+  //         asal: asal,
+  //         tujuan: tujuan,
+  //         layanan: layanan,
+  //         harga: harga,
+  //         estimati: estimati,
+  //       };
+  //     });
+  //   });
+  // };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setShippingEdit((prev) => {
