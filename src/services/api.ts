@@ -1,6 +1,7 @@
 import axios from "axios";
 import { TypeCustomer } from "../type/customer";
 import { TypeShippingRatesAdd } from "../type/shipping";
+import { TypeAlamat } from "../type/alamat";
 
 const axiosApi = axios.create({
   baseURL: `${process.env.REACT_APP_URL}`,
@@ -31,6 +32,22 @@ export const readAllAlamat = () => {
   return axiosApi.get("/api/alamat");
 };
 
+export const readOneAlamat = (id: number | undefined) => {
+  return axiosApi.get(`/api/alamat/${id}`);
+};
+
+export const postAlamat = (data: TypeAlamat) => {
+  return axiosApi.post("/api/alamat", data);
+};
+
+export const editAlamat = (id: number | undefined, data: TypeAlamat) => {
+  return axiosApi.post(`/api/alamat/${id}`, data);
+};
+
+export const deleteAlamat = (id: number | undefined) => {
+  return axiosApi.delete(`/api/alamat/${id}`)
+}
+
 // shipping rates
 export const readAllShipping = () => {
   return axiosApi.get("/api/shipping");
@@ -44,7 +61,10 @@ export const postShipping = (data: TypeShippingRatesAdd) => {
   return axiosApi.post("/api/shipping", data);
 };
 
-export const editShipping = (id: number | undefined, data: TypeShippingRatesAdd) => {
+export const editShipping = (
+  id: number | undefined,
+  data: TypeShippingRatesAdd
+) => {
   return axiosApi.post(`/api/shipping/${id}`, data);
 };
 

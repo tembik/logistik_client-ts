@@ -7,6 +7,8 @@ import PaidIcon from "@mui/icons-material/Paid";
 import SendIcon from "@mui/icons-material/Send";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 
+import FmdGoodIcon from '@mui/icons-material/FmdGood';
+
 const Leftbar = () => {
   return (
     <Grid item xs={3}>
@@ -44,6 +46,15 @@ const Leftbar = () => {
             <Button variant="text" startIcon={<TrendingUpIcon />}>
               Lacak Resi
             </Button>
+          </Box>
+        </Stack>
+        <Stack>
+          <Box>
+            <Link to="/alamat">
+              <Button variant="text" startIcon={<FmdGoodIcon />}>
+                Alamat
+              </Button>
+            </Link>
           </Box>
         </Stack>
       </Stack>
